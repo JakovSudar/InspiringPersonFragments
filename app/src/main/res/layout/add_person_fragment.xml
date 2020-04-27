@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="30dp"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +11,9 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     >
-
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <EditText
         android:id="@+id/newName"
         android:layout_width="match_parent"
@@ -23,7 +28,10 @@
         android:id="@+id/newDescription"
         android:layout_width="match_parent"
         android:hint="Description"
-        android:layout_height="60dp"/>
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:minLines="3"
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/newImage"
         android:layout_width="match_parent"
@@ -35,5 +43,5 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Add"/>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </TableLayout>
+</ScrollView>

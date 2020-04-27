@@ -8,7 +8,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var mOnButtonClicked: OnButtonClicked? = null
+    private var mOnUpdateList: OnUpdateList? = null
+    private var mOnEditPerson: OnEditPerson? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,15 +21,30 @@ class MainActivity : AppCompatActivity() {
         tabLayout.setupWithViewPager(viewPager)
     }
 
-    fun setOnButtonClicked(c: OnButtonClicked) {
-        mOnButtonClicked = c
+    fun setOnUpdateList(c: OnUpdateList) {
+        mOnUpdateList = c
+    }
+    fun setOnEdit(c :OnEditPerson){
+        mOnEditPerson = c
     }
 
+    //pozivaju se iz fragmenata
     fun refreshData(){
         viewPager.currentItem = 0
-        mOnButtonClicked!!.displayData()
+        mOnUpdateList!!.displayData()
     }
-    interface OnButtonClicked {
+    fun editPerson(id: Int){
+        viewPager.currentItem = 1
+        mOnEditPerson!!.editPerson(id)
+    }
+
+    //Implemetiraju ih fragmenti
+    interface OnUpdateList {
         fun displayData()
     }
+    interface OnEditPerson{
+        fun editPerson(id:Int);
+    }
+
+
 }

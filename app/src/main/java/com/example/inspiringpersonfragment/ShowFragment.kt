@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.show_persons_fragment.*
 
-class ShowFragment : Fragment(), MainActivity.OnButtonClicked {
+class ShowFragment : Fragment(), MainActivity.OnUpdateList,PersonAdapter.OnPersonDelete, PersonAdapter.OnEditPerson {
 
     private var mMain: MainActivity? = null
 
@@ -24,7 +24,7 @@ class ShowFragment : Fragment(), MainActivity.OnButtonClicked {
     override fun onActivityCreated(savedState: Bundle?) {
         super.onActivityCreated(savedState)
         mMain = activity as MainActivity?
-        mMain!!.setOnButtonClicked(this)
+        mMain!!.setOnUpdateList(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):View?{
@@ -42,6 +42,16 @@ class ShowFragment : Fragment(), MainActivity.OnButtonClicked {
     override fun displayData() {
         val adapter = PersonAdapter()
         recycler.adapter = adapter
+        adapter.setOnPersonDeleteListener(this)
+        adapter.setOnPersonEditListener(this)
         adapter.refreshData(InspiringPersonRepository.persons)
+    }
+
+    override fun onPersonDelete() {
+        displayData()
+    }
+
+    override fun onEditPerson(id: Int) {
+        mMain!!.editPerson(id)
     }
 }

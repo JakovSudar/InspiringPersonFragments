@@ -21,11 +21,6 @@ class AddFragment : Fragment(), MainActivity.OnEditPerson {
         }
     }
 
-    override fun onAttach(a: Activity) {
-        super.onAttach(a)
-        //mMain = a as MainActivity
-
-    }
     override fun onActivityCreated(savedState: Bundle?) {
         super.onActivityCreated(savedState)
         mMain = activity as MainActivity?
@@ -43,7 +38,6 @@ class AddFragment : Fragment(), MainActivity.OnEditPerson {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         addBtn.setOnClickListener{addPerson()}
-
     }
 
     private fun addPerson() {
@@ -51,21 +45,26 @@ class AddFragment : Fragment(), MainActivity.OnEditPerson {
         val date = newDate.text.toString()
         val descr = newDescription.text.toString()
         val img = newImage.text.toString()
+        val quotes = newQuotes.text.toString().split(";")
 
         if(name.isNotBlank() && date.isNotBlank() && descr.isNotBlank()){
             val personId = if(newPersonId==-1)InspiringPersonRepository.persons.maxBy { p -> p.id }!!.id + 1 else newPersonId
-            val newPerson = Person(personId,name,date,descr,img, listOf("New persons doesn't have quotes."))
+            val newPerson = Person(personId,name,date,descr,img, quotes)
             try{InspiringPersonRepository.remove(personId)} catch (e : Exception){}
             InspiringPersonRepository.add(newPerson)
             Toast.makeText(context,"Added!", Toast.LENGTH_SHORT).show()
-            newName.text.clear()
-            newDate.text.clear()
-            newDescription.text.clear()
-            newImage.text.clear()
-            newPersonId = -1
+            clearFields()
             mMain!!.refreshData()
         }else Toast.makeText(context,"Empty field!", Toast.LENGTH_SHORT).show()
+    }
 
+    private fun clearFields() {
+        newName.text.clear()
+        newDate.text.clear()
+        newDescription.text.clear()
+        newImage.text.clear()
+        newQuotes.text.clear()
+        newPersonId = -1
     }
 
     override fun editPerson(id: Int) {
@@ -74,6 +73,7 @@ class AddFragment : Fragment(), MainActivity.OnEditPerson {
         newDate.setText(person!!.date)
         newDescription.setText(person.descr)
         newImage.setText(person.image)
+        newQuotes.setText(person.qoutes.joinToString(separator = " ; "))
         newPersonId = id
     }
 
